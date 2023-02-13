@@ -15,7 +15,11 @@ return new class extends Migration
     {
         Schema::create('meals', function(Blueprint $table){
             $table->bigIncrements('id') ;
-            $table->string('name') ;
+            $table->string('title') ;
+            $table->integer('price') ;
+            $table->string('image') ;
+            $table->string('description') ;
+            $table->timestamps() ;
         }) ;
     }
 
