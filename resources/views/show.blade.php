@@ -6,11 +6,11 @@
     {{-- @foreach ($meals as $meal) --}}
     <div class="card card-body bg-light center-block text-left rounded mx-3 bg-muted m-3 text-dark" style="min-width:26%;max-width:30%" >
         <div class="w-50 m-auto text-center mb-3">
-            <img class="shad m-auto rounded-50" src="{{asset('images/'.$meal->image).'.jfif'}}"  style="width:100px; border-radius:50px"/>
+            <img class="shad m-auto" src="{{asset('images/'.$meal->image)}}"  style="width:100%;height:150px; border-radius:10px"/>
         </div>
-        <h5 class="border-bottom p-1 fw-bold">{{$meal->title}}</h5>
-        <small class="border-bottom fw-bold p-1"> {{$meal->price}} <i class="fa-solid fa-money-bill-1-wave"></i></small>
-        <p class="border-bottom fw-bold p-1"> {{$meal->description}}</p>
+        <b class="border-bottom text-danger fw-bold p-1"> {{$meal->price}} <i class="fa-solid fa-money-bill-1-wave"></i></b>
+        <h5 class="border-bottom text-secondary p-1 fw-bold">{{$meal->title}}</h5>
+        <p class="border-bottom fw-bold p-1"> {{$meal->description}} Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloremque, enim.</p>
     <a class="btn btn-light border-2 text-secondary fw-bold w-25" href="/dashboard"> <i class="fa-solid fa-backward"></i> back</a>
 
         {{-- <div class="d-flex justify-content-around p-2 mt-2">
