@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Meals;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http ;
 
 class MealsController extends Controller
 {
     
     public function index()
     {
-        $meals = Meals::all() ;
-        // dd($meals) ;
+        $meals = Meals::paginate(6) ;
         return view('welcome')->with('meals', $meals) ;
     }
 
@@ -32,8 +32,11 @@ class MealsController extends Controller
             'title' => $req->input('title'),
             'price'=> $req->input('price'),
             'description' => $req->input('description'),
-            'image' => $req->input('image')
+            'image' => $req->file('image')->getClientOriginalName() 
         ]  ;
+        // $path = $req->file('image')->store('public/images');
+        // $imageName = time().'.'.$req->image->extension(); 
+        $req->image->move(public_path('images'), $data['image']);
         Meals::create($data) ;
         return redirect('/dashboard') ;
     }
@@ -41,7 +44,6 @@ class MealsController extends Controller
     public function show($id)
     {
         $meal = Meals::find($id) ;
-        // dd($meal) ;
         return view('show')->with('meal', $meal) ;
     }
 
@@ -65,8 +67,9 @@ class MealsController extends Controller
             'title'=> $req->input('title'), 
             'price' => $req->input('price') ,
             'description'=> $req->input('description'),
-            'image'=> $req->input('image') 
+            'image'=> $req->file('image')->getClientOriginalName() 
         ] ;
+        $req->image->move(public_path('images'), $data['image']);
         Meals::where('id', $id)->update($data) ;
         return redirect('/dashboard') ;
     }
@@ -82,5 +85,12 @@ class MealsController extends Controller
         $search = $_GET['query'] ;
         $meals = Meals::where('title', 'LIKE', '%'.$search.'%')->get() ;
         return view('search')->with('meals', $meals) ;
+    }
+
+    public function getApiData(){
+        $meals =  Http::get('www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata')->json() ;
+        print_r($meals['meals']->idMeal) ;
+        dd('here') ; 
+        return view('meals')->with('meals', $meals) ;
     }
 }
